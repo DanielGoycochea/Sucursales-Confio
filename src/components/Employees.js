@@ -27,6 +27,18 @@ const Employees = (props) => {
         getEmployeesSort()
 
     }
+    
+    let sucursal = "" 
+    
+    if(Number(params.id) === 1){
+        sucursal ="Quinn Wiley"
+    }else if(Number(params.id) === 2){
+        sucursal = "Josiah Montgomery"
+    }else if(Number(params.id) === 3){
+        sucursal = "Hedley Todd"
+    }else if(Number(params.id) === 4){
+        sucursal = "Victor Boone"
+    }
  
 
     return (
@@ -34,8 +46,8 @@ const Employees = (props) => {
         <div  className="container__employees">
             
             <div className= "details__employees">
-            <h3>Empleado  de la sucursal {params.id}</h3>
-            <span onClick={(e)=>{handleSort("pk")}}> Ordenar por ID (asc/</span><span onClick={(e)=>{handleSort("-pk")}}> desc)</span>
+            <h3>Empleado  de la sucursal {sucursal}</h3>
+            <span> Ordenar por ID (</span><span className="span__employees" onClick={(e)=>{handleSort("pk")}}>asc</span>/<span className="span__employees" onClick={(e)=>{handleSort("-pk")}}> desc</span>)
                 <table className="table table-bordered">
                 <thead className="thead-dark">
                     <tr>

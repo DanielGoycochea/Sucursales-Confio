@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 
+
 const Banks = () => {
     const [list, setList] = useState ([]);
 
@@ -21,13 +22,14 @@ const Banks = () => {
             {list.map((banks)=>{
                 
                 return(
-                    <div key={banks.pk}>
+                    <div key={banks.pk} className="list__Bank">
 
                         <Link to = {`/branches/${banks.pk}`}>{banks.name}</Link>
                         
                     </div>
                 )
             })}
+           
             
         </div>
     );

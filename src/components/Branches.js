@@ -19,13 +19,25 @@ const Branches = (props) => {
         return list.bank === Number(params.id)
     })
 
+    let sucursal = "" 
+    
+    if(Number(params.id) === 1){
+        sucursal ="Ori Bolton"
+    }else if(Number(params.id) === 2){
+        sucursal = "Nomlanga Justice"
+    }else if(Number(params.id) === 3){
+        sucursal = "Eric Coffey"
+    }else if(Number(params.id) === 4){
+        sucursal = "Dale Mcneil"
+    }
+
     return (
         <div className="container__branches">
-            <h4>Selecciones una Sucursal:</h4>
+            <h4>Sucursales del Banco "{sucursal}":</h4>
         
             {filterbranches.map((branch)=>{
                 return(
-                    <div key={branch.id}>
+                    <div key={branch.id} className = "list__branches">
                         
                         <Link to ={`/employees/${branch.id}`}>{branch.name}</Link>
 
