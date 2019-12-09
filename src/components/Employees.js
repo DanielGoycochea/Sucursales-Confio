@@ -34,10 +34,17 @@ const Employees = (props) => {
 
     const handlePaginatonNext = ()=>{
         const getEmployeesSort = async ()=>{
-            const res = await axios.get(`${paginationNext} `)
+            if(paginationNext === null){
+                return
+            }else{
+                const res = await axios.get(`${paginationNext} `)
             
-            setemployees(res.data.results)
-            setPaginationNext(res.data.next)
+                setemployees(res.data.results)
+                setPaginationNext(res.data.next)
+                setPaginationPrev(res.data.previous)
+
+            }
+           
         }
         getEmployeesSort()
 
@@ -45,9 +52,23 @@ const Employees = (props) => {
 
     const handlePaginatonPrev = ()=>{
         const getEmployeesSort = async ()=>{
-            const res = await axios.get(`${paginationPrev}`)
-            setPaginationPrev(res.data.previous)
-            setemployees(res.data.results)
+            if(paginationPrev===null){
+               return 
+            }else {
+                const res = await axios.get(`${paginationPrev}`)
+                setemployees(res.data.results)
+                setPaginationPrev(res.data.previous)
+                setPaginationNext(res.data.next)
+            }
+            
+            // console.log(res)
+           
+            //     setPaginationPrev(res.data.previous)
+            //     setemployees(res.data.results)
+                
+            
+            // setemployees(res.data.results)
+
         }
         getEmployeesSort()
 
@@ -99,7 +120,7 @@ const Employees = (props) => {
                 </table> 
                
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                    <ul className="pagination">
                         <li className="page-item">
                         <span className="page-link" onClick={(e)=>{handlePaginatonPrev()}} aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
