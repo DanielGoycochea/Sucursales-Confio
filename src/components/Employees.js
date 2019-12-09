@@ -37,6 +37,7 @@ const Employees = (props) => {
             const res = await axios.get(`${paginationNext} `)
             
             setemployees(res.data.results)
+            setPaginationNext(res.data.next)
         }
         getEmployeesSort()
 
@@ -45,7 +46,7 @@ const Employees = (props) => {
     const handlePaginatonPrev = ()=>{
         const getEmployeesSort = async ()=>{
             const res = await axios.get(`${paginationPrev}`)
-            
+            setPaginationPrev(res.data.previous)
             setemployees(res.data.results)
         }
         getEmployeesSort()
@@ -68,7 +69,7 @@ const Employees = (props) => {
     return (
         <Fragment>
         <div  className="container__employees">
-            [console.log(paginationPrev)]
+            
             <div className= "details__employees">
             <h3>Empleado  de la sucursal {sucursal}</h3>
             <span> Ordenar por ID (</span><span className="span__employees" onClick={(e)=>{handleSort("pk")}}>asc</span>/<span className="span__employees" onClick={(e)=>{handleSort("-pk")}}> desc</span>)
@@ -96,13 +97,24 @@ const Employees = (props) => {
                 </tbody>
 
                 </table> 
+               
                 <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item"><span clasName="page-link" onClick={(e)=>{handlePaginatonPrev()}}>Previous</span></li>
-                       
-                        <li className="page-item"><span className="page-link"  onClick={(e)=>{handlePaginatonNext()}}>Next</span></li>
+                    <ul class="pagination">
+                        <li className="page-item">
+                        <span className="page-link" onClick={(e)=>{handlePaginatonPrev()}} aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span className="sr-only">Previous</span>
+                        </span>
+                        </li>
+                        
+                        <li className="page-item">
+                        <span className="page-link" onClick={(e)=>{handlePaginatonNext()}} aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span className="sr-only">Next</span>
+                        </span>
+                        </li>
                     </ul>
-                </nav>
+                    </nav>
 
                 
             </div>
