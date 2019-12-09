@@ -7,11 +7,15 @@ import {Link} from 'react-router-dom';
 const Employees = (props) => {
     const {params} = props.match;
     const [employees, setemployees] = useState([]);
+    const [paginationNext, setPaginationNext] = useState("")
+    const [paginationPrev, setPaginationPrev] = useState("")
 
     useEffect(()=>{
         const getEmployees = async ()=>{
             const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}`)
             setemployees(res.data.results)
+            setPaginationNext(res.data.next)
+            setPaginationPrev(res.data.previous)
         }
         
         getEmployees()
@@ -21,6 +25,26 @@ const Employees = (props) => {
     const handleSort = (key)=>{
         const getEmployeesSort = async ()=>{
             const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}`)
+            
+            setemployees(res.data.results)
+        }
+        getEmployeesSort()
+
+    }
+
+    const handlePaginatonNext = ()=>{
+        const getEmployeesSort = async ()=>{
+            const res = await axios.get(`${paginationNext} `)
+            
+            setemployees(res.data.results)
+        }
+        getEmployeesSort()
+
+    }
+
+    const handlePaginatonPrev = ()=>{
+        const getEmployeesSort = async ()=>{
+            const res = await axios.get(`${paginationPrev}`)
             
             setemployees(res.data.results)
         }
@@ -44,7 +68,7 @@ const Employees = (props) => {
     return (
         <Fragment>
         <div  className="container__employees">
-            
+            [console.log(paginationPrev)]
             <div className= "details__employees">
             <h3>Empleado  de la sucursal {sucursal}</h3>
             <span> Ordenar por ID (</span><span className="span__employees" onClick={(e)=>{handleSort("pk")}}>asc</span>/<span className="span__employees" onClick={(e)=>{handleSort("-pk")}}> desc</span>)
@@ -72,6 +96,14 @@ const Employees = (props) => {
                 </tbody>
 
                 </table> 
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        <li className="page-item"><span clasName="page-link" onClick={(e)=>{handlePaginatonPrev()}}>Previous</span></li>
+                       
+                        <li className="page-item"><span className="page-link"  onClick={(e)=>{handlePaginatonNext()}}>Next</span></li>
+                    </ul>
+                </nav>
+
                 
             </div>
             {/* <AddEmployees branch={params.id}/> */}
