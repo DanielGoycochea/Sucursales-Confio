@@ -39,8 +39,8 @@ const   handleFormSubmit = e =>{
             setMensaje("El nombre del empleado es obligatorio.")
             return 
         }
-        else if(!pattern.test(data.name)){
-            setMensaje("El nombre del empleado acepta únicamente letras, acentos y espacios")
+        else if(!pattern.test(data.name)||!pattern.test(data.middle_name)||!pattern.test(data.last_name)){
+            setMensaje("se acepta únicamente letras, acentos y espacios")
             setError(true)
             return
         }

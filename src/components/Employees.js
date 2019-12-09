@@ -59,15 +59,7 @@ const Employees = (props) => {
                 setemployees(res.data.results)
                 setPaginationPrev(res.data.previous)
                 setPaginationNext(res.data.next)
-            }
-            
-            // console.log(res)
-           
-            //     setPaginationPrev(res.data.previous)
-            //     setemployees(res.data.results)
-                
-            
-            // setemployees(res.data.results)
+            }  
 
         }
         getEmployeesSort()
