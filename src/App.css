@@ -1,0 +1,61 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #3b454e;
+    
+}
+
+/* APP */
+.container__app{
+    background: #ffffff;
+    margin-top: 80px;
+    height: 600px;
+    border-radius: 1%;
+}
+
+.banks__app{
+    background: #eff2f5;
+    width: 250px;
+    border-radius: 2%;
+    height: 100%;
+}
+
+.info__app{
+    width: 100%;
+    height: 100%;
+}
+
+/* NavBar */
+
+.header__navbar{
+    background: #00ba68 !important;
+}
+
+/* Banks */
+.container__banks{
+    padding: 40px 10px;
+}
+
+/* Details */
+.details__app{
+    
+    width: 75%;
+    padding: 40px 0px;
+}
+
+/* employees */
+.container__employees{
+    padding: 20px 60px;
+}
+
+/* addEmployee */
+.form__addEmployee
+{
+    width: 600px;
+    padding: 20px 80px;
+}
+ .details__employees{
+    /* width: 100%; */
+}
+
