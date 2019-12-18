@@ -4,66 +4,86 @@ import {Link} from 'react-router-dom';
 
 
 
+
 const Employees = (props) => {
     const {params} = props.match;
     const [employees, setemployees] = useState([]);
-    const [paginationNext, setPaginationNext] = useState("")
-    const [paginationPrev, setPaginationPrev] = useState("")
+    const [pageNumbers, setPageNumbers]= useState([])
+    const [page, setPages] = useState("1")
+
+   
 
     useEffect(()=>{
         const getEmployees = async ()=>{
             const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}`)
             setemployees(res.data.results)
-            setPaginationNext(res.data.next)
-            setPaginationPrev(res.data.previous)
+            const numberpag = [];
+            const legthNumber = Math.ceil(res.data.count/5)
+
+            for (let i=1;i<=legthNumber;i++){
+                numberpag.push(i)
+            }
+
+
+            setPageNumbers(numberpag)
+
+            
         }
         
         getEmployees()
     },[params.id])
 
-
+    
     const handleSort = (key)=>{
+       
         const getEmployeesSort = async ()=>{
-            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}`)
             
+            
+            let pages = Number(page)
+
+            if(pageNumbers.length > 1){
+                    if(pages === 1 && key === "-pk"){
+                        let pag = 2
+                        
+                        const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
+                        setemployees(res.data.results)
+                      
+                        }else if(pages === 2 && key === "-pk"){
+                            let pag = 1
+                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
+                            setemployees(res.data.results)
+                       
+                        }else if(pages === 2 && key === "pk"){
+                            let pag = 2
+                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
+                            setemployees(res.data.results)
+
+                        }else if(pages === 1 && key === "pk"){
+                            let pag = 1
+                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
+                            setemployees(res.data.results)
+
+                        }
+                    }else if (pageNumbers.length === 1){
+                             const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}`)
+                             setemployees(res.data.results)
+
+                        }
+        }
+        
+        getEmployeesSort()
+       
+        
+
+    }
+    const handlePagination =(key)=>{
+        const pagination = async ()=>{
+            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&page=${key}`)
             setemployees(res.data.results)
-        }
-        getEmployeesSort()
-
-    }
-
-    const handlePaginatonNext = ()=>{
-        const getEmployeesSort = async ()=>{
-            if(paginationNext === null){
-                return
-            }else{
-                const res = await axios.get(`${paginationNext} `)
             
-                setemployees(res.data.results)
-                setPaginationNext(res.data.next)
-                setPaginationPrev(res.data.previous)
-
-            }
-           
         }
-        getEmployeesSort()
-
-    }
-
-    const handlePaginatonPrev = ()=>{
-        const getEmployeesSort = async ()=>{
-            if(paginationPrev===null){
-               return 
-            }else {
-                const res = await axios.get(`${paginationPrev}`)
-                setemployees(res.data.results)
-                setPaginationPrev(res.data.previous)
-                setPaginationNext(res.data.next)
-            }  
-
-        }
-        getEmployeesSort()
-
+        setPages(key)
+        pagination()
     }
     
     let sucursal = "" 
@@ -113,25 +133,19 @@ const Employees = (props) => {
                
                 <nav aria-label="Page navigation example">
                     <ul className="pagination">
-                        <li className="page-item">
-                        <span className="page-link" onClick={(e)=>{handlePaginatonPrev()}} aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span className="sr-only">Previous</span>
-                        </span>
-                        </li>
+                        {pageNumbers.map((pag)=>{
+                                return(
+                                    <li className="page-item" key={pag} ><span className="page-link" value={pag} onClick={(e)=>{handlePagination(pag)}}>{pag}</span></li>
+                                )
+                            })}
                         
                         <li className="page-item">
-                        <span className="page-link" onClick={(e)=>{handlePaginatonNext()}} aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span className="sr-only">Next</span>
-                        </span>
                         </li>
                     </ul>
                     </nav>
-
                 
             </div>
-            {/* <AddEmployees branch={params.id}/> */}
+          
             <Link  to ={`/addemployee/`}><button className="btn btn-primary">Agregar Empleado</button></Link> 
         </div>
         
