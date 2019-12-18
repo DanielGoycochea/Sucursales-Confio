@@ -37,38 +37,19 @@ const Employees = (props) => {
     const handleSort = (key)=>{
        
         const getEmployeesSort = async ()=>{
+
             
+                const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=pk&page=${page}`)
+
+            if (key ==="-pk"){
+
+                let rever= res.data.results
+                rever.reverse()
+                setemployees(rever)
+            }
+           
+            setemployees(res.data.results)
             
-            let pages = Number(page)
-
-            if(pageNumbers.length > 1){
-                    if(pages === 1 && key === "-pk"){
-                        let pag = 2
-                        
-                        const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
-                        setemployees(res.data.results)
-                      
-                        }else if(pages === 2 && key === "-pk"){
-                            let pag = 1
-                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
-                            setemployees(res.data.results)
-                       
-                        }else if(pages === 2 && key === "pk"){
-                            let pag = 2
-                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
-                            setemployees(res.data.results)
-
-                        }else if(pages === 1 && key === "pk"){
-                            let pag = 1
-                            const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}&page=${pag}`)
-                            setemployees(res.data.results)
-
-                        }
-                    }else if (pageNumbers.length === 1){
-                             const res = await axios.get(`https://tryouts-cumplo.herokuapp.com/employees/?branch=${params.id}&ordering=${key}`)
-                             setemployees(res.data.results)
-
-                        }
         }
         
         getEmployeesSort()
